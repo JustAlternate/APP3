@@ -92,16 +92,6 @@ arbre lire_arbre (FILE *f)
 }
 
 
-
-void affiche_arbre (noeud *racine)
-{
-   FILE *f = fopen("arbre.dot", "w");
-   if (f == NULL){
-    eprintf("affichage impossible.");
-   }
-   ecrire_arbre_rec (racine, f);
-   system("dot -Tpng -o arbre.png arbre.dot");
-}
 void ecrire_arbre_rec (arbre racine, FILE *f){
     if(racine == NULL){
         return;
@@ -115,3 +105,17 @@ void ecrire_arbre_rec (arbre racine, FILE *f){
         ecrire_arbre_rec(racine->droit, f);
     }
 }
+
+void affiche_arbre (noeud *racine)
+{
+   FILE *f = fopen("arbre.dot", "w");
+   if (f == NULL){
+    fprintf(stderr, "affichage impossible.");
+   }
+   fprintf(f, "digraph arbre { ");
+   ecrire_arbre_rec(racine, f);
+   fprintf(f, "}");
+   fclose(f);
+   system("dot -Tpng -o arbre.png arbre.dot");
+}
+
