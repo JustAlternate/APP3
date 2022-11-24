@@ -40,3 +40,11 @@ int ajouter_tete(liste_t* L, string c) { /* retourne 0 si OK, 1 sinon  */
   return 1;
 }
 
+void affiche_liste(liste_t* L){
+  cellule_t *cur = L->tete;
+  while(cur!=NULL){
+    printf("%s ",cur->val);
+    cur = cur->suivant;
+  }
+}
+
