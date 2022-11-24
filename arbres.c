@@ -95,7 +95,23 @@ arbre lire_arbre (FILE *f)
 
 void affiche_arbre (noeud *racine)
 {
-   printf ("<<<<< À faire: fonction affiche_arbre fichier " __FILE__ " >>>>>\n");
-    /* à remplir */
+   FILE *f = fopen("arbre.dot", "w");
+   if (f == NULL){
+    eprintf("affichage impossible.");
+   }
+   ecrire_arbre_rec (racine, f);
+   system("dot -Tpng -o arbre.png arbre.dot");
 }
-
+void ecrire_arbre_rec (arbre racine, FILE *f){
+    if(racine == NULL){
+        return;
+    }
+    if(racine->gauche != NULL){
+        fprintf(f, "%s -> %s [label = \"non\"]\n", racine->valeur, racine->gauche->valeur);
+        ecrire_arbre_rec(racine->gauche, f);
+    }
+    if(racine->droit != NULL){
+        fprintf(f, "%s -> %s [label = \"oui\"]\n", racine->valeur, racine->droit->valeur);
+        ecrire_arbre_rec(racine->droit, f);
+    }
+}
