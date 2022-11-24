@@ -32,6 +32,7 @@ void liberer_liste(liste_t *L);
  */
 int ajouter_tete(liste_t *L, string c);
 
+void affiche_liste(liste_t* L);
 
 #endif /* _LISTES_H */
 
