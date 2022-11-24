@@ -60,6 +60,8 @@ int main(int argc, char* argv[])
 
     printf ("Nombre d'especes de l'arbre: %d\n", nombre_especes);
     printf ("Nombre de caractéristiques de l'arbre: %d\n", nombre_caract);
+    int decalage = 0;
+    print_arbre(mon_arbre,&decalage);
 
 
 

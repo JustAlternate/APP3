@@ -119,3 +119,26 @@ void affiche_arbre (noeud *racine)
    system("dot -Tpng -o arbre.png arbre.dot");
 }
 
+
+void print_arbre(arbre A, int *decalage){
+  for (int i = 0; i<(*decalage); i++){
+    printf(" ");
+  }
+  if (A == NULL){
+    printf("/\n");
+    return;
+  }
+  if(A->gauche == NULL && A->droit == NULL){
+    printf("(%s)\n",A->valeur);
+    return;
+  }
+  printf("(%s\n",A->valeur);
+  (*decalage)++;
+  (*decalage)++;
+  print_arbre(A->gauche, decalage);
+  print_arbre(A->droit, decalage);
+  printf(")\n");
+  (*decalage)--;
+  (*decalage)--;
+  
+}

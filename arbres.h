@@ -32,6 +32,7 @@ arbre lire_arbre (FILE *f);
 void affiche_arbre (arbre);
 
 
+void print_arbre(arbre A, int *decalage);
 /* Macros pour de l'affichage uniquement si DEBUG est != 0 */
 extern int DEBUG;
 
