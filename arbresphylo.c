@@ -39,13 +39,43 @@ void analyse_arbre (arbre racine, int* nb_esp, int* nb_carac)
 /* Recherche l'espece dans l'arbre. Modifie la liste passée en paramètre pour y mettre les
  * caractéristiques. Retourne 0 si l'espèce a été retrouvée, 1 sinon.
  */
-int rechercher_espece (arbre racine, char *espece, liste_t* seq)
-{
-    /* à compléter */
+int recherche_espece_rec(arbre racine,char *espece, cellule_t** seq){
+  if(racine == NULL){
     return 1;
+  }
+  if(racine->droit == NULL && racine->gauche == NULL){
+    if(strcmp(racine->valeur, espece) == 0){
+      return 0;
+    }
+    else{
+      return 1;
+    }
+  }
+  if(racine->gauche != NULL){
+    int rep = recherche_espece_rec(racine->gauche, espece, seq);
+    if(rep == 0){
+      return 0;
+    }
+  }
+  if(racine->droit != NULL){
+    cellule_t *cel = malloc(sizeof(cellule_t));
+    *seq = cel;
+    int rep = recherche_espece_rec(racine->droit, espece, &cel->suivant);
+    if(rep == 0){
+      return 0;
+    }
+    else{
+      free(cel);
+      *seq = NULL;
+    }
+  }
+  return 1;
 }
 
-
+int rechercher_espece (arbre racine, char *espece, liste_t* seq)
+{
+  return recherche_espece_rec(racine, espece, &(seq->tete));
+}
 
 /* Doit renvoyer 0 si l'espece a bien ete ajoutee, 1 sinon, et ecrire un 
  * message d'erreur.
