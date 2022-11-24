@@ -6,12 +6,31 @@
 #include "arbresphylo.h"
 #include "listes.h"
 
-void analyse_arbre (arbre racine, int* nb_esp, int* nb_carac)
-{
-   printf ("<<<<< À faire: fonction analyse_arbre fichier " __FILE__ "\n >>>>>");
+
+void analyse_arbre_rec(arbre racine, int* nb_esp, int *nb_carac){
+  if (racine == NULL){
+    return;
+  }
+  if (racine->gauche == NULL && racine->droit == NULL){            // O(1)
+    (*nb_esp)++;                                                   // O(1)
+    return;
+  }
+  (*nb_carac)++;                                                   // O(1)
+
+  analyse_arbre_rec(racine->gauche, nb_esp, nb_carac);          
+  analyse_arbre_rec(racine->droit, nb_esp, nb_carac);              
+  return;
+
 }
 
+void analyse_arbre (arbre racine, int* nb_esp, int* nb_carac)
+{
+  *(nb_esp) = 0;                                                   // O(1)
+  *(nb_carac) = 0;                                                 // O(1)
+  analyse_arbre_rec(racine,nb_esp,nb_carac);                       // O(n) (on fait n fois la récurrence)
+}
 
+// Donc analyse_arbre est en O(n) ce qui est super cool :D
 
 
 
