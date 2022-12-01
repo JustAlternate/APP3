@@ -32,11 +32,13 @@ int ajouter_tete(liste_t* L, string c) { /* retourne 0 si OK, 1 sinon  */
     L->tete = malloc(sizeof(cellule_t));
     L->tete->val = c;
   }
-  cellule_t *ancienne_tete = L->tete;
-  cellule_t *nouv = malloc(sizeof(cellule_t));
-  nouv->val = c;
-  L->tete = nouv;
-  nouv->suivant = ancienne_tete;
+  else{
+    cellule_t *ancienne_tete = L->tete;
+    cellule_t *nouv = malloc(sizeof(cellule_t));
+    nouv->val = c;
+    L->tete = nouv;
+    nouv->suivant = ancienne_tete;
+  }
   return 1;
 }
 

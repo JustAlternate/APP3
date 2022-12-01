@@ -34,6 +34,7 @@ int main(int argc, char** argv) {
 	// Recupere arbre
 	if (getline(&line, &len, f) != -1) {
 		token = strtok(line, " ");
+		printf("token: %s\n",token);
 
 		// Recupère le nom du fichier test
 		int l = strlen(token) + 1;
