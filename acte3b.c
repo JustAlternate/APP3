@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 	char* fichier_test = argv[1];
 	FILE* f = fopen(argv[1], "r+");
 	if (f == NULL) {
-		printf("Erreur, fichier test %s inexistant\n", fichier_test);
+		printf("Erreur, fichier test  %s inexistant\n", fichier_test);
 		return 1;
 	}
 

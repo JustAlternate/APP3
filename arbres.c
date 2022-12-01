@@ -110,7 +110,7 @@ void affiche_arbre (noeud *racine)
 {
    FILE *f = fopen("arbre.dot", "w");
    if (f == NULL){
-    fprintf(stderr, "affichage impossible.");
+    fprintf(stderr, "Fichier impossible a lire.");
    }
    fprintf(f, "digraph arbre { ");
    ecrire_arbre_rec(racine, f);
@@ -119,8 +119,8 @@ void affiche_arbre (noeud *racine)
    system("dot -Tpng -o arbre.png arbre.dot");
 }
 
-
 void print_arbre(arbre A, int *decalage){
+  // fonction qui affiche un arbre dans le terminal.
   for (int i = 0; i<(*decalage); i++){
     printf(" ");
   }
@@ -137,8 +137,10 @@ void print_arbre(arbre A, int *decalage){
   (*decalage)++;
   print_arbre(A->gauche, decalage);
   print_arbre(A->droit, decalage);
+  (*decalage)--;
+  (*decalage)--;
+  for (int i = 0; i<(*decalage); i++){
+    printf(" ");
+  } 
   printf(")\n");
-  (*decalage)--;
-  (*decalage)--;
-  
 }

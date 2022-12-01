@@ -89,8 +89,43 @@ int ajouter_espece (arbre* a, char *espece, cellule_t* seq) {
  * à droite, dans le fichier fout.
  * Appeler la fonction avec fout=stdin pour afficher sur la sortie standard.
  */
-void afficher_par_niveau (arbre racine, FILE* fout) {
-   printf ("<<<<< À faire: fonction afficher_par_niveau fichier " __FILE__ "\n >>>>>");
+void afficher_par_niveau (arbre a, FILE* fout) {
+  if (a == NULL){
+    return;
+  }
+  // On va utiliser la technique que vous nous avez conseilé pendant un td, celle de faire un tableau de taille 25000
+  // car on sait que aucun fichier de tests n'a plus de 50 000 especes
+  // Je tiens a preciser que ce code a été fait pendant un TD et donc qu'il risque de fortement ressembler a celui de nos collegues de TD.
+  arbre *tab[25000];
+  tab[0]=&a;
+  // On met dans notre tableau notre arbre.
+  // On va définir 3 variable qui vont permettre de nous donner les index des éléments dans le tableau que nous utilisons.
+  int deb = 0;
+  int niveau = 0;
+  int fini = 0;
+  int nb_elems = 1; //La taille fictive de notre tableau (tous les trucs qu'il nous reste a traiter.)
+  // On va maintenant faire un parcours en largeur afin de pouvoir itérer profondeur par profondeur de notre arbre.
+  while(!(nb_elems==0)){
+    if (!((*tab[deb])->droit == NULL && (*tab[deb])->gauche == NULL)){ // Si les deux sous arbres ne sont pas vides alors on ajoute tab[deb]->val car c'est une caractéristiques.
+      fprintf(fout,"%s ",(*tab[deb])->valeur);
+    }
+    if ((*tab[deb])->gauche != NULL){
+      fini = fini + 1 %25000;
+      tab[fini]=&(*tab[deb])->gauche;
+      nb_elems++;
+    }
+    if ((*tab[deb])->droit != NULL){
+      fini = fini + 1 %25000;
+      tab[fini]=&(*tab[deb])->droit;
+      nb_elems++;
+    }
+    nb_elems--;
+    if(deb==niveau){
+      niveau=fini;
+      fprintf(fout,"\n");
+    }
+    deb++;
+  }
 }
 
 // Acte 4
