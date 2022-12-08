@@ -34,6 +34,10 @@ int ajouter_tete(liste_t *L, string c);
 
 void affiche_liste(liste_t* L);
 
+int longueur_seq(cellule_t *seq);
+
+int est_dans_seq(cellule_t *seq, char *carac);
+
 #endif /* _LISTES_H */
 
 
