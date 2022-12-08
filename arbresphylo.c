@@ -30,7 +30,8 @@ void analyse_arbre (arbre racine, int* nb_esp, int* nb_carac)
   analyse_arbre_rec(racine,nb_esp,nb_carac);                       // O(n) (on fait n fois la récurrence)
 }
 
-// Donc analyse_arbre est en O(n) ce qui est super cool :D
+/* ANALYSE COMPLEXITE : */
+/* Donc analyse_arbre est en O(n) ce qui est super cool :D */
 
 
 
@@ -40,44 +41,51 @@ void analyse_arbre (arbre racine, int* nb_esp, int* nb_carac)
  * caractéristiques. Retourne 0 si l'espèce a été retrouvée, 1 sinon.
  */
 int recherche_espece_rec(arbre racine,char *espece, cellule_t** seq){
-  if(racine == NULL){
-    return 1;
+  if(racine == NULL){                                                         //O(1)
+    return 1;                                                                 //O(1)
   }
-  if(racine->droit == NULL && racine->gauche == NULL){
-    if(strcmp(racine->valeur, espece) == 0){
-      printf("on a trouvé l'espece: %s\n", racine->valeur);
-      return 0;
+  if(racine->droit == NULL && racine->gauche == NULL){                        //O(1)
+    if(strcmp(racine->valeur, espece) == 0){                                  //O(1 + len(espece)) ~ O(1)
+      return 0;                                                               //O(1)
     }
     else{
-      return 1;
+      return 1;                                                               //O(1)
     }
   }
-  if(racine->gauche != NULL){
-    int rep = recherche_espece_rec(racine->gauche, espece, seq);
-    if(rep == 0){
-      return 0;
+  if(racine->gauche != NULL){                                                 //O(1)
+    int rep = recherche_espece_rec(racine->gauche, espece, seq);              //au maximum : O(n) si l'arbre n'a que des arbres de 1 enfant, au minimum O(log2(n))
+    if(rep == 0){                                                             //O(1)
+      return 0;                                                               //O(1)
     }
   }
-  if(racine->droit != NULL){
-    cellule_t *cel = malloc(sizeof(cellule_t));
-    cel->val = racine->valeur;
-    *seq = cel;
-    int rep = recherche_espece_rec(racine->droit, espece, &cel->suivant);
-    if(rep == 0){
-      return 0;
+  if(racine->droit != NULL){                                                  //O(1)
+    cellule_t *cel = malloc(sizeof(cellule_t));                               //O(1)
+    cel->val = racine->valeur;                                                //O(1)
+    *seq = cel;                                                               //O(1)
+    int rep = recherche_espece_rec(racine->droit, espece, &cel->suivant);     //au maximum : O(n) si l'arbre n'a que des arbres de 1 enfant, au minimum O(log2(n))
+    if(rep == 0){                                                             //O(1)
+      return 0;                                                               //O(1)
     }
     else{
-      free(cel);
-      *seq = NULL;
+      free(cel);                                                              //O(1)
+      *seq = NULL;                                                            //O(1)
     }
   }
-  return 1;
+  return 1;                                                                   //O(1)
 }
+/* ANALYSE COMPLEXITE : */
+/* Donc dans le pire des cas la complexite est O(n) */
+
 
 int rechercher_espece (arbre racine, char *espece, liste_t* seq)
 {
-  return recherche_espece_rec(racine, espece, &(seq->tete));
+  return recherche_espece_rec(racine, espece, &(seq->tete));           // O(n)
 }
+/* ANALYSE COMPLEXITE : */
+// O(n)
+
+
+// ACTE3 :
 
 /* Doit renvoyer 0 si l'espece a bien ete ajoutee, 1 sinon, et ecrire un 
  * message d'erreur.
@@ -93,14 +101,18 @@ void ajout_direct_espece(arbre *a, char *espece, cellule_t* seq){
   else{
     mon_arbre->valeur = seq->val;
     (*a) = mon_arbre;
-    ajout_direct_espece(&(mon_arbre->droit), espece, seq->suivant);
+    ajout_direct_espece(&(mon_arbre->droit), espece, seq->suivant);            //O(len(espece))
   }
   return;
 }
+// Complexite : O(len(seq))
+
 
 int est_espece(arbre a){ //retourne un bool disant si l'arbre est une espece (n'as pas d'enfants)
   return (a->droit == NULL && a->gauche == NULL); // O(1)
 }
+// Complexite : O(1)
+
 
 int ajouter_espece (arbre* a, char *espece, cellule_t* seq) { // c'est recursif
   if (*a == NULL)
@@ -138,8 +150,11 @@ int ajouter_espece (arbre* a, char *espece, cellule_t* seq) { // c'est recursif
       }
     }
   }
-
 }
+/* ANALYSE COMPLEXITE */
+// Pour n, nombre d'elements de l'arbre.
+// au pire des cas : O(n + len(seq)) , et au meilleur des cas : O(log2(n))
+
 
 /* Doit afficher la liste des caractéristiques niveau par niveau, de gauche
  * à droite, dans le fichier fout.
@@ -183,10 +198,11 @@ void afficher_par_niveau (arbre a, FILE* fout) {
     deb++;
   }
 }
+/* ANALYSE COMPLEXITE */
+// O(n) (nombre d'elements de l'arbre)
+
 
 // Acte 4
-
-
 int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {
    printf ("<<<<< À faire: fonction ajouter_carac fichier " __FILE__ "\n >>>>>");
    return 0;
