@@ -203,11 +203,16 @@ void afficher_par_niveau (arbre a, FILE* fout) {
 
 
 // Acte 4
-int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {
-   printf ("<<<<< À faire: fonction ajouter_carac fichier " __FILE__ "\n >>>>>");
-   return 0;
+//fonction secondaire
+void ajout_direct_carac(arbre* a,char* carac){
+  //printf("ajout_direct_carac\n");
+  arbre nouv = nouveau_noeud();
+  nouv->droit = *a;
+  nouv->valeur = carac;
+  *a = nouv;
 }
 
+<<<<<<< HEAD
 
 
 // Acte 5
@@ -266,3 +271,81 @@ int lire_table(char* nom_fichier, char especes[100][50], char caracteristiques[1
   return 1;
 
 }
+=======
+//fonction principale
+int ajouter_carac_rec(arbre* a, char* carac, cellule_t* seq) {
+  //printf("aa\n");
+  //printf("ajouter_carac_rec(%s, %s, seq)\n", (*a)->valeur, carac);
+  if ((*a)->droit == NULL && (*a)->gauche == NULL)
+  {
+    if(est_dans_seq(seq, (*a)->valeur)){
+      if(longueur_seq(seq) == 1){//il y a une seul espèc et c'est celle là
+        ajout_direct_carac(a, carac);
+        return 1;
+      }
+      else{
+        return 1;
+      }
+    }
+    else{
+      return 0;
+    }
+  }
+  if((*a)->droit != NULL && (*a)->gauche != NULL){
+    int resg, resd;
+    resg = ajouter_carac_rec(&((*a)->gauche), carac, seq);
+    resd = ajouter_carac_rec(&((*a)->droit), carac, seq);
+    if(resg + resd == longueur_seq(seq)){
+      if(resg == 0 || resd == 0){
+        return resg + resd;
+      }
+      else{
+        ajout_direct_carac(a, carac);
+        return resd + resg;
+      }
+    } 
+    if(resd==0 || resd==0){
+      return 0;
+    }
+    else{
+      return resg + resd;
+    }
+  }
+  if((*a)->gauche != NULL){ // (*a)->droit == NULL
+    return ajouter_carac_rec(&((*a)->gauche), carac, seq);
+  }
+  else{
+    return ajouter_carac_rec(&((*a)->droit), carac, seq);
+  }
+}
+
+
+// fonction d'enrobage
+int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {
+  ajout_direct_carac(a, carac);
+  return 1;
+  // liste_t l;
+  // l.tete = seq;
+  // printf("liste d'especes:\n");
+  // affiche_liste(&l);
+  // printf("\n");
+  // printf("fonction ajouter_carac\n");
+  if ((*a) == NULL){
+    if (longueur_seq(seq) == 0)
+    {
+      ajout_direct_carac(a, carac);
+      return 1;
+    }
+    else{
+      return 0;
+    }
+  }
+  //tout es normal: on lance la récursion
+  if (ajouter_carac_rec(a, carac, seq) == 0){
+    return 0;
+  }
+  else{
+    return 1;
+  }
+}
+>>>>>>> 1975bc35a904e47104076c4ed8c85715ada8692b

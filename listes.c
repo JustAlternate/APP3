@@ -50,3 +50,25 @@ void affiche_liste(liste_t* L){
   }
 }
 
+int longueur_seq(cellule_t* seq){
+  int i = 0;
+  for (i = 0; seq != NULL; i++)
+  {
+    seq = seq->suivant;
+  }
+  return i;
+}
+
+int est_dans_seq(cellule_t* seq, char* carac){
+  if(seq==NULL){
+    return 0; // FALSE
+  }
+  else{
+    if(strcmp(carac, seq->val) == 0){
+      return 1; // TRUE
+    }
+    else{
+      return est_dans_seq(seq->suivant, carac);
+    }
+  }
+}
