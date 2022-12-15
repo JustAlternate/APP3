@@ -28,6 +28,7 @@ void afficher_par_niveau(arbre racine, FILE* fout);
 // des noeuds caractéristique sans enfant qui seraient confondues avec des
 // espèces/feuilles.
 int ajouter_carac(arbre* a, char* carac, cellule_t* seq);
-
+ 
+int lire_table(char* nom_fichier, char especes[100][50], char caracteristiques[100][50], int correspondances[100][50], int* nb_especes, int* nb_carac);
 
 #endif

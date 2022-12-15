@@ -19,6 +19,7 @@ struct liste {
 
 typedef struct liste liste_t;
 
+
 /* cree une nouvelle liste, initialement vide */
 void init_liste_vide(liste_t* L);
 

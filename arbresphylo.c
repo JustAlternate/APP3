@@ -207,3 +207,62 @@ int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {
    printf ("<<<<< À faire: fonction ajouter_carac fichier " __FILE__ "\n >>>>>");
    return 0;
 }
+
+
+
+// Acte 5
+
+#define TAILLE_MAX 1000
+
+
+int lire_table(char* nom_fichier, char especes[100][50], char caracteristiques[100][50], int correspondances[100][50], int* nb_especes, int* nb_carac){
+  // On passe en arguments :
+
+  // nom_fichier : le fichier dans lequelle il y a notre arbre
+  // especes : un tableau de strings qui represente la liste des especes (les strings ont une taille max = 1000)
+  // caracteristiques : un tableau de strings qui represente la liste des caracteristiques (les strings ont une taille max = 1000)
+  // correspondances : un tableau de tableau de int qui represente les correspondances d'une caracteristiques pour une espece
+  // exemple correspondances[0][0] == 1 -> espece[0] a la caracteristique caracteristiques[0]
+  // nb_especes : un pointeur vers un int qui contient le nombre d'espece dans le tableau especes
+  // nb_carac : un pointeur vers un int qui contient le nombre de caracteristiques dans le tableau caracteristiques.
+
+  // Renvoie -1 si erreur, 1 si réussi.
+  
+  FILE *f = fopen(nom_fichier, "r") ;
+  if (f == NULL) {
+      printf("%s n'a pas pu être ouvert en lecture \n",nom_fichier) ;
+      return -1 ;
+  }
+  
+  fscanf(f, "%d", nb_especes);
+  printf("Nombre d'especes : %d \n",(*nb_especes));
+  
+
+  printf("Les especes : \n");
+  for (int i=0; i < (*nb_especes); i++){
+    fscanf(f, "%s", especes[i]);
+    printf("%s ",especes[i]);
+  }
+  printf("\n");
+
+  fscanf(f, "%d", nb_carac);
+  printf("Nombre de caracteristiques : %d \n",(*nb_carac));
+  
+
+  printf("Les caracteristiques : \n");
+  for (int i=0; i < (*nb_carac); i++){
+    fscanf(f, "%s", caracteristiques[i]);
+    printf("%s ",caracteristiques[i]);
+  }
+  printf("\n");
+
+
+  for (int i=0; i < (*nb_especes); i++){
+    for (int j=0; j< (*nb_carac); j++){
+      fscanf(f,"%d", &correspondances[j][i]);
+    }
+  } 
+  fclose(f);
+  return 1;
+
+}
