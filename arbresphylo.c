@@ -286,13 +286,71 @@ int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {
 }
 
 
-
 // Acte 5
-
 #define TAILLE_MAX 1000
 
+int somme_colonne(int **correspondances,int index_to_sum, int nb_especes){
+  int res = 0;
+  for (int i = 0; i<nb_especes;i++){
+    res += correspondances[i][index_to_sum];
+  }
+  return res;
+}
 
-int lire_table(char* nom_fichier, char especes[100][50], char caracteristiques[100][50], int correspondances[100][50], int* nb_especes, int* nb_carac){
+int somme_ligne(int **correspondances,int index_to_sum, int nb_carac){
+  int res = 0;
+  for (int i = 0; i<nb_carac;i++){
+    res += correspondances[index_to_sum][i];
+  }
+  return res;
+}
+
+void echange_colonne(int a,int b, int **correspondances, char **caracteristique, int nb_especes){
+  for (int pos = 0; pos < nb_especes; pos++){
+    if (correspondances[pos][a]!= correspondances[pos][b]){
+      correspondances[pos][a]= !(correspondances[pos][a]);
+      correspondances[pos][b]= !(correspondances[pos][b]);
+    }
+  }
+  char *temp = caracteristique[a];
+  caracteristique[a] = caracteristique[b];
+  caracteristique[b] = temp; 
+}
+/*
+void tri_espece(int nb_especes, char especes[100][50],int correspondances[100][50], int nb_carac, int nb_especes){
+  int index_max = 0;
+  int somme_max = 0;
+  int somme_actuel = 0;
+  for (int i=0; i<nb_especes;i++){
+    for (int j=0; j<nb_especes;j++){
+      somme_actuel = somme_ligne(correspondances,j,nb_carac);
+      if (somme_actuel >= somme_max){
+        somme_max = somme_actuel;
+        index_max = j;
+      }
+    }
+    echange_ligne(i,index_max,correspondances,especes,nb_carac);
+    somme_max=0;
+  }
+}
+void tri_carac(int nb_carac, char caracteristique[100][50],int correspondances[100][50], int nb_cara, int nb_especes){
+  int index_max = 0;
+  int somme_max = 0;
+  int somme_actuel = 0;
+  for (int i=0; i<nb_cara;i++){
+    for (int j=0; j<nb_cara;j++){
+      somme_actuel = somme_colonne(correspondances,j,nb_especes);
+      if (somme_actuel >= somme_max){
+        somme_max = somme_actuel;
+        index_max = j;
+      }
+    }
+    echange_colonne(i,index_max,correspondances,caracteristique,nb_cara);
+    somme_max=0;
+  }
+}
+*/
+int lire_table(char* nom_fichier, char **especes, char **caracteristiques, int **correspondances, int* nb_especes, int* nb_carac){
   // On passe en arguments :
 
   // nom_fichier : le fichier dans lequelle il y a notre arbre
@@ -336,10 +394,37 @@ int lire_table(char* nom_fichier, char especes[100][50], char caracteristiques[1
 
   for (int i=0; i < (*nb_especes); i++){
     for (int j=0; j< (*nb_carac); j++){
-      fscanf(f,"%d", &correspondances[j][i]);
+      fscanf(f,"%d", &correspondances[i][j]);
+      printf("%d ",correspondances[i][j]);
     }
+    printf("\n");
   } 
   fclose(f);
   return 1;
 
 }
+
+void afficher_matrice(char **especes, char **caracteristiques, int **correspondances, int nb_especes, int nb_carac){
+  printf("\n               | ");
+  for(int j =0; j < nb_carac; j++){
+    printf("%s | ",caracteristiques[j]);
+  }
+  printf("\n");
+  for(int i  = 0; i < nb_especes; i++){
+    printf("%s",especes[i]);
+    for(int k = 0; k < (15 - (int) strlen(especes[i])); k++){
+      printf(" ");
+    }
+    printf("| ");
+    for(int j = 0; j < nb_carac; j++){
+      printf("%d",correspondances[i][j]);
+      for(int k = 0; k < (int) strlen(caracteristiques[j]); k++){
+        printf(" ");
+      }
+      printf("| ");
+    }
+    printf("\n");
+  }
+}
+
+

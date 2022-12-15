@@ -63,14 +63,22 @@ int main(int argc, char* argv[])
     int decalage = 0;
 
     print_arbre(mon_arbre,&decalage);
+    char **especes = malloc(sizeof(char*)*100);
+    char **caracteristiques = malloc(sizeof(char*)*100);
+    int **correspondances = malloc(sizeof(int*)*100);
 
-    char especes[100][50];
-    char caracteristiques[100][50];
-    int correspondances[100][50];
+    for(int i = 0; i < 100; i++){
+      especes[i] = malloc(sizeof(char)*50);
+      caracteristiques[i] = malloc(sizeof(char)*50);
+      correspondances[i] = malloc(sizeof(int)*50);
+    }
     int nb_especes = 0;
     int nb_carac = 0;
     char *nom_fichier = "table_correspondance_exemple";
     lire_table(nom_fichier,especes,caracteristiques,correspondances,&nb_especes,&nb_carac);
+    printf("j'affiche la matrice:");
+    afficher_matrice(especes, caracteristiques, correspondances, nb_especes, nb_carac);
+    printf("j'ai affiché");
 
 
 

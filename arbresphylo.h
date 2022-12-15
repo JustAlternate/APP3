@@ -29,6 +29,10 @@ void afficher_par_niveau(arbre racine, FILE* fout);
 // espèces/feuilles.
 int ajouter_carac(arbre* a, char* carac, cellule_t* seq);
  
-int lire_table(char* nom_fichier, char especes[100][50], char caracteristiques[100][50], int correspondances[100][50], int* nb_especes, int* nb_carac);
+int lire_table(char* nom_fichier, char **especes, char **caracteristiques, int **correspondances, int* nb_especes, int* nb_carac);
 
+int somme_colonne(int **correspondances,int index_to_sum, int nb_carac);
+
+void afficher_matrice(char **especes, char **caracteristiques, int **correspondances, int nb_especes, int nb_carac);
+ 
 #endif
