@@ -117,22 +117,12 @@ int est_espece(arbre a){ //retourne un bool disant si l'arbre est une espece (n'
 
 
 int ajouter_espece (arbre* a, char *espece, cellule_t* seq) { // c'est recursif
-  /* affichage de debug:
-  liste_t l;
-  l.tete = seq;
-  printf("\najoute_espece: entree\n");
-  printf("on affiche la seq:\n   ");
-  affiche_liste(&l);
-  printf("espece donnee: %s\n", espece);
-  */
   if (*a == NULL)
   {
-    //printf("ajoute_espece: cas simple\n");
     ajout_direct_espece(a, espece, seq);
     return 0;
   }
   else{
-    //printf("ajoute_espece: cas spé\n");
     if(est_espece(*a)){ // on est sur une espece il n'y a plus despeces plus bas 
       if (seq == NULL){ // on a deux espèces avec exactement les mêmes caractéristique: erreur
         printf("ERREUR: impossible d'ajouter l'espece, une autre espece a déjà les mêmes caractéristiques.\n");
@@ -149,9 +139,7 @@ int ajouter_espece (arbre* a, char *espece, cellule_t* seq) { // c'est recursif
       }
     }
     else{// a n'est pas une espece
-      //printf("ajoute_espece: a n'est pas une espece");
       if (seq == NULL){//plus de caractéristique à vérifier: on va a gauche.
-        //printf("sequn nul\n");
         return ajouter_espece(&((*a)->gauche), espece, seq);
       }
       if (strcmp((*a)->valeur,seq->val) == 0){//l'espece a la caractéristique:
