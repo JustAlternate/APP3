@@ -93,6 +93,25 @@ int main(int argc, char* argv[])
     printf("j'affiche la matrice triée :");
     afficher_matrice(especes, caracteristiques, correspondances, nb_especes, nb_carac);
     
+    arbre final;
+    liste_t liste;
+    for (int i=nb_especes;i>-1;i--){
+
+      
+      init_liste_vide(&liste);
+      for(int j=nb_carac;j>-1;j--){
+        if (correspondances[i][j]){
+          printf("cara accepté : %s\n",caracteristiques[j]);
+          ajouter_tete(&liste, caracteristiques[j]);
+        }
+      }
+
+      ajouter_espece(&final, especes[i], liste.tete);
+      printf("%s ",especes[i]);
+
+    }
+    affiche_arbre(final);
+
     return 0;
 }
 

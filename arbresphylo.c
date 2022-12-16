@@ -342,11 +342,10 @@ void tri_espece(int nb_carac, char **especes,int **correspondances, int nb_espec
         index_max = j;
       }
     }
-    echange_ligne(index_max,i,correspondances,especes,nb_carac);
+    echange_ligne(i,index_max,correspondances,especes,nb_carac);
     somme_max=0;
   }
 }
-
 void tri_carac(int nb_carac, char **caracteristique,int **correspondances, int nb_especes){
   int index_max = 0;
   int somme_max = 0;
@@ -359,7 +358,7 @@ void tri_carac(int nb_carac, char **caracteristique,int **correspondances, int n
         index_max = j;
       }
     }
-    echange_colonne(index_max,i,correspondances,caracteristique,nb_especes);
+    echange_colonne(i,index_max,correspondances,caracteristique,nb_carac);
     somme_max=0;
   }
 }
