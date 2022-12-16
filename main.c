@@ -4,8 +4,20 @@
 #include "listes.h"
 #include "arbres.h"
 #include "arbresphylo.h"
+#include "listes.h"
 
 int DEBUG = 0;
+
+liste_t sequence_de_carac(int id_espece, char **especes, char **caracteristiques, int **correspondances, int nb_especes, int nb_carac){
+  liste_t lc = malloc(sizeof(cellule_t));
+  for (int i = 0; i < nb_carac; i++)
+  {
+    if(caracteristiques[id_espece][i]){
+      ajouter_tete(lc, caracteristiques[i]);
+    }
+  }
+  return lc;
+}
 
 int main(int argc, char* argv[])
 {
