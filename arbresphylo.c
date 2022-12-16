@@ -291,6 +291,7 @@ int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {
 // Acte 5
 
 int somme_colonne(int **correspondances,int index_to_sum, int nb_especes){
+  // Complexite : O(n)
   int res = 0;
   for (int i = 0; i<nb_especes;i++){
     res += correspondances[i][index_to_sum];
@@ -299,6 +300,7 @@ int somme_colonne(int **correspondances,int index_to_sum, int nb_especes){
 }
 
 int somme_ligne(int **correspondances,int index_to_sum, int nb_carac){
+  // Complexite : O(n)
   int res = 0;
   for (int i = 0; i<nb_carac;i++){
     res += correspondances[index_to_sum][i];
@@ -307,6 +309,7 @@ int somme_ligne(int **correspondances,int index_to_sum, int nb_carac){
 }
 
 void echange_colonne(int a,int b, int **correspondances, char **caracteristique, int nb_especes){
+  // Complexite : O(n)
   for (int pos = 0; pos < nb_especes; pos++){
     if (correspondances[pos][a]!= correspondances[pos][b]){
       correspondances[pos][a]= !(correspondances[pos][a]);
@@ -319,6 +322,7 @@ void echange_colonne(int a,int b, int **correspondances, char **caracteristique,
 }
 
 void echange_ligne(int a,int b, int **correspondances, char **especes, int nb_carac){
+  // Complexite : O(n)
   for (int pos = 0; pos < nb_carac; pos++){
     if (correspondances[a][pos] != correspondances[b][pos]){
       correspondances[a][pos]= !(correspondances[a][pos]);
@@ -331,6 +335,9 @@ void echange_ligne(int a,int b, int **correspondances, char **especes, int nb_ca
 }
 
 void tri_espece(int nb_carac, char **especes,int **correspondances, int nb_especes){
+  // Fonction qui permet de trier le tableau des especes par ordre croissant pour pouvoir apres faire notre insertion dans l'arbre.
+  // btw : Selection sort 
+  // Complexite : O(n²)
   int index_max = 0;
   int somme_max = 0;
   int somme_actuel = 0;
@@ -347,6 +354,9 @@ void tri_espece(int nb_carac, char **especes,int **correspondances, int nb_espec
   }
 }
 void tri_carac(int nb_carac, char **caracteristique,int **correspondances, int nb_especes){
+  // Fonction qui permet de trier le tableau des caractéristique par ordre croissant pour pouvoir apres faire notre insertion dans l'arbre.
+  // btw : Selection sort 
+  // Complexite : O(n²)
   int index_max = 0;
   int somme_max = 0;
   int somme_actuel = 0;
@@ -367,25 +377,30 @@ int lire_table(char* nom_fichier, char **especes, char **caracteristiques, int *
   // On passe en arguments :
 
   // nom_fichier : le fichier dans lequelle il y a notre arbre
-  // especes : un tableau de strings qui represente la liste des especes (les strings ont une taille max = 1000)
-  // caracteristiques : un tableau de strings qui represente la liste des caracteristiques (les strings ont une taille max = 1000)
+  // especes : un tableau de strings qui represente la liste des especes 
+  // caracteristiques : un tableau de strings qui represente la liste des caracteristiques 
   // correspondances : un tableau de tableau de int qui represente les correspondances d'une caracteristiques pour une espece
-  // exemple correspondances[0][0] == 1 -> espece[0] a la caracteristique caracteristiques[0]
+  // exemple correspondances[0][0] == 1 <==> espece[0] = singe possede la caracteristique caracteristiques[0] = main
   // nb_especes : un pointeur vers un int qui contient le nombre d'espece dans le tableau especes
   // nb_carac : un pointeur vers un int qui contient le nombre de caracteristiques dans le tableau caracteristiques.
 
   // Renvoie -1 si erreur, 1 si réussi.
+  //
+  // Complexite : O(nb_especes + nb_carac) = O(n)
   
+  // On ouvre le fichier 
   FILE *f = fopen(nom_fichier, "r") ;
   if (f == NULL) {
       printf("%s n'a pas pu être ouvert en lecture \n",nom_fichier) ;
       return -1 ;
   }
   
+  // On lit la premiere ligne sur laquelle on a le nombre d'especes
   fscanf(f, "%d", nb_especes);
   printf("Nombre d'especes : %d \n",(*nb_especes));
   
 
+  // On lit la deuxieme ligne sur laquelle on a la liste des especes séparée par un ' ' puis on les stocks dans le tableau especes 
   printf("Les especes : \n");
   for (int i=0; i < (*nb_especes); i++){
     fscanf(f, "%s", especes[i]);
@@ -393,10 +408,11 @@ int lire_table(char* nom_fichier, char **especes, char **caracteristiques, int *
   }
   printf("\n");
 
+  // Sur la ligne 3 on lit le nombre de caractéristiques
   fscanf(f, "%d", nb_carac);
   printf("Nombre de caracteristiques : %d \n",(*nb_carac));
   
-
+  // On fait pareil que la lit 2 mais cette fois çi avec la liste des caracteristiques
   printf("Les caracteristiques : \n");
   for (int i=0; i < (*nb_carac); i++){
     fscanf(f, "%s", caracteristiques[i]);
@@ -404,7 +420,7 @@ int lire_table(char* nom_fichier, char **especes, char **caracteristiques, int *
   }
   printf("\n");
 
-
+  // Puis on lit le tableau de int des correspondances qui nous dira quelle especes possede quelles caractéristique.
   for (int i=0; i < (*nb_especes); i++){
     for (int j=0; j< (*nb_carac); j++){
       fscanf(f,"%d", &correspondances[i][j]);
@@ -416,7 +432,7 @@ int lire_table(char* nom_fichier, char **especes, char **caracteristiques, int *
   return 1;
 
 }
-
+// Fonction permettant de visualiser si la lecture du fichier ou le tri du tableau c'est fait sans erreur 
 void afficher_matrice(char **especes, char **caracteristiques, int **correspondances, int nb_especes, int nb_carac){
   printf("\n               | ");
   for(int j =0; j < nb_carac; j++){
