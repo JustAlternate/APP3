@@ -14,11 +14,9 @@ Nom2 - prénom2 : PASCAL Isak
 Si vous avez des commentaires, remarques etc. pour le rendu, vous pouvez les 
 mettre ici:
 
-...
-...
-...
-
-
+Bonjour, C'est la derniere APP, on est triste que ça se finisse, mais content d'être enfin en vacance,
+On a kiffer faire de l'inf301 tout ce semestre, c'etait vachement cool, merci d'avoir réussi
+a un peu nous faire oublier nos notes catastrophique en maths. Joyeux Noël et Bonne année !
 
 Travail à effectuer:
 ====================

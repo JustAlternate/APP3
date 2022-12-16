@@ -1,4 +1,4 @@
-all: main acte1 acte2 acte3 acte3b acte4
+all: main acte1 acte2 acte3 acte3b acte4 acte5
 
 
 CC=clang
@@ -27,6 +27,7 @@ acte2: acte2.o $(OBJS)
 acte3: acte3.o $(OBJS)
 acte3b: acte3b.o $(OBJS)
 acte4: acte4.o $(OBJS)
+acte5: acte5.o $(OBJS)
 
 .PHONY: tests_acte1 tests_acte2 tests_acte3 tests_acte3b tests_acte4
 

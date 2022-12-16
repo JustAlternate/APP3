@@ -6,6 +6,14 @@
 #include "arbresphylo.h"
 #include "listes.h"
 
+/*
+ *
+ * ATTENTION LES FONCTIONS : tri_carac, tri_espece, echange_ligne, echange_colonne, somme_ligne, somme_colonne, lire_table
+ * ON ETAIT BRAINSTORME (pseudo code) ENTRE MOI (Loïc) et Gregorille (un autre binome), ce qui implique que le code peut se ressembler (POUR L'ACTE 5 uniquement.)
+ *
+ * Si il y a d'autre ressemblance dans le code avec Gregorille et Arthur, cela veut dire que ce sont des fonctions traité en TD.
+ *
+ */
 
 void analyse_arbre_rec(arbre racine, int* nb_esp, int *nb_carac){
   if (racine == NULL){
