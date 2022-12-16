@@ -8,15 +8,16 @@
 
 int DEBUG = 0;
 
-liste_t sequence_de_carac(int id_espece, char **especes, char **caracteristiques, int **correspondances, int nb_especes, int nb_carac){
-  liste_t lc = malloc(sizeof(cellule_t));
+void sequence_de_carac(int id_espece, liste_t *seq, char **caracteristiques, int **correspondances, int nb_carac){
   for (int i = 0; i < nb_carac; i++)
   {
     if(caracteristiques[id_espece][i]){
-      ajouter_tete(lc, caracteristiques[i]);
+      ajouter_tete(seq, caracteristiques[i]);
+      printf("on a ajouté %s\n", caracteristiques[i]);
     }
+    //printf("voici la séquence:\n");
+    //affiche_liste(seq);
   }
-  return lc;
 }
 
 int main(int argc, char* argv[])
@@ -105,22 +106,26 @@ int main(int argc, char* argv[])
     printf("j'affiche la matrice triée :");
     afficher_matrice(especes, caracteristiques, correspondances, nb_especes, nb_carac);
     
-    arbre final;
+    arbre final = NULL;
+    //final->droit = NULL;
+    //final->gauche = NULL;
+    //final->valeur = " coucou ";
     liste_t liste;
-    for (int i=nb_especes;i>-1;i--){
+    printf("on start la boucle\n");
+    for (int i = nb_especes - 1; i > -1; i--)
+    {
+      printf("dans la boooooucle\n");
+      printf("l'espece du moment: %s\n", especes[i]);
 
-      
       init_liste_vide(&liste);
-      for(int j=nb_carac;j>-1;j--){
-        if (correspondances[i][j]){
-          printf("cara accepté : %s\n",caracteristiques[j]);
-          ajouter_tete(&liste, caracteristiques[j]);
-        }
-      }
-
+      printf("on commence la séquence:\n");
+      sequence_de_carac(i, &liste, caracteristiques, correspondances, nb_carac);
+      printf("on montre la séquence:\n");
+      affiche_liste(&liste);
+      printf("on a montré la séquence\n");
       ajouter_espece(&final, especes[i], liste.tete);
-      printf("%s ",especes[i]);
-
+      printf("ona ajouté espece\n");
+      printf("%s \n", especes[i]);
     }
     affiche_arbre(final);
 

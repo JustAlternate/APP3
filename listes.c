@@ -31,6 +31,7 @@ int ajouter_tete(liste_t* L, string c) { /* retourne 0 si OK, 1 sinon  */
   if (L->tete == NULL){
     L->tete = malloc(sizeof(cellule_t));
     L->tete->val = c;
+    L->tete->suivant = NULL;
   }
   else{
     cellule_t *ancienne_tete = L->tete;
@@ -45,7 +46,7 @@ int ajouter_tete(liste_t* L, string c) { /* retourne 0 si OK, 1 sinon  */
 void affiche_liste(liste_t* L){
   cellule_t *cur = L->tete;
   while(cur!=NULL){
-    printf("%s ",cur->val);
+    printf("%s \n",cur->val);
     cur = cur->suivant;
   }
 }
