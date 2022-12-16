@@ -210,36 +210,39 @@ void ajout_direct_carac(arbre* a,char* carac){
   nouv->valeur = carac;
   *a = nouv;
 }
+
 //fonction principale
-int ajouter_carac_rec(arbre* a, char* carac, cellule_t* seq) {
+//retourne:
+// 0 si l'arbre n'est pas bon
+// -1 si la carac a déjà été ajoutée
+// le nombre d'espèce rencontré sinon
+int ajouter_carac_rec(arbre* a, char* carac, cellule_t* seq, int longueur) {
+  //printf("aa\n");
+  //printf("ajouter_carac_rec(%s, %s, seq)\n", (a)->valeur, carac);
   if ((*a)->droit == NULL && (*a)->gauche == NULL)
   {
-    if(est_dans_seq(seq, (*a)->valeur)){
-      if(longueur_seq(seq) == 1){//il y a une seul espèc et c'est celle là
-        ajout_direct_carac(a, carac);
-        return 1;
-      }
-      else{
-        return 1;
-      }
-    }
-    else{
-      return 0;
-    }
+    return est_dans_seq(seq, (*a)->valeur);
   }
   if((*a)->droit != NULL && (*a)->gauche != NULL){
     int resg, resd;
-    resg = ajouter_carac_rec(&((*a)->gauche), carac, seq);
-    resd = ajouter_carac_rec(&((*a)->droit), carac, seq);
-    if(resg + resd == longueur_seq(seq)){
-      if(resg == 0 || resd == 0){
-        return resg + resd;
-      }
-      else{
-        ajout_direct_carac(a, carac);
-        return resd + resg;
-      }
-    } 
+    resg = ajouter_carac_rec(&((*a)->gauche), carac, seq, longueur);
+    if(resg == -1){
+      return -1;
+    }
+    if(resg == longueur){
+      ajout_direct_carac(&(*a)->gauche, carac);
+      return -1;
+    }
+
+    resd = ajouter_carac_rec(&((*a)->droit), carac, seq, longueur);
+    if(resd == -1){
+      return -1;
+    }
+    if(resd == longueur){
+      ajout_direct_carac(&(*a)->droit, carac);
+      return -1;
+    }
+
     if(resd==0 || resd==0){
       return 0;
     }
@@ -247,47 +250,45 @@ int ajouter_carac_rec(arbre* a, char* carac, cellule_t* seq) {
       return resg + resd;
     }
   }
-  if((*a)->gauche != NULL){ // (*a)->droit == NULL
-    return ajouter_carac_rec(&((*a)->gauche), carac, seq);
+  if((*a)->gauche != NULL){ // (a)->droit == NULL
+    return ajouter_carac_rec(&((*a)->gauche), carac, seq, longueur);
   }
   else{
-    return ajouter_carac_rec(&((*a)->droit), carac, seq);
+    return ajouter_carac_rec(&((*a)->droit), carac, seq, longueur);
   }
 }
 
 
 // fonction d'enrobage
 int ajouter_carac(arbre* a, char* carac, cellule_t* seq) {
-  ajout_direct_carac(a, carac);
-  return 1;
-  // liste_t l;
-  // l.tete = seq;
-  // printf("liste d'especes:\n");
-  // affiche_liste(&l);
-  // printf("\n");
-  // printf("fonction ajouter_carac\n");
+  liste_t l;
+  l.tete = seq;
+  //printf("liste d'especes:\n");
+  //affiche_liste(&l);
+  //printf("\n");
+  //printf("fonction ajouter_carac\n");
   if ((*a) == NULL){
-    if (longueur_seq(seq) == 0)
-    {
-      ajout_direct_carac(a, carac);
-      return 1;
-    }
-    else{
-      return 0;
-    }
-  }
-  //tout es normal: on lance la récursion
-  if (ajouter_carac_rec(a, carac, seq) == 0){
     return 0;
   }
-  else{
+  //tout es normal: on lance la récursion
+  int res = ajouter_carac_rec(a, carac, seq, longueur_seq(seq));
+  //printf("le resultat: %d\n\n", res);
+  if (res == -1)
+  {
     return 1;
+  }
+  if (res == longueur_seq(seq)){
+    ajout_direct_carac(a, carac);
+    return 1;
+  }
+  //dans tous les autres cas:
+  else{
+    return 0;
   }
 }
 
 
 // Acte 5
-#define TAILLE_MAX 1000
 
 int somme_colonne(int **correspondances,int index_to_sum, int nb_especes){
   int res = 0;
@@ -316,15 +317,27 @@ void echange_colonne(int a,int b, int **correspondances, char **caracteristique,
   caracteristique[a] = caracteristique[b];
   caracteristique[b] = temp; 
 }
-/*
-void tri_espece(int nb_especes, char especes[100][50],int correspondances[100][50], int nb_carac, int nb_especes){
+
+void echange_ligne(int a,int b, int **correspondances, char **especes, int nb_carac){
+  for (int pos = 0; pos < nb_carac; pos++){
+    if (correspondances[a][pos] != correspondances[b][pos]){
+      correspondances[a][pos]= !(correspondances[a][pos]);
+      correspondances[b][pos]= !(correspondances[b][pos]);
+    }
+  }
+  char *temp = especes[a];
+  especes[a] = especes[b];
+  especes[b] = temp; 
+}
+
+void tri_espece(int nb_carac, char **especes,int **correspondances, int nb_especes){
   int index_max = 0;
   int somme_max = 0;
   int somme_actuel = 0;
   for (int i=0; i<nb_especes;i++){
     for (int j=0; j<nb_especes;j++){
       somme_actuel = somme_ligne(correspondances,j,nb_carac);
-      if (somme_actuel >= somme_max){
+      if (somme_actuel > somme_max){
         somme_max = somme_actuel;
         index_max = j;
       }
@@ -333,23 +346,23 @@ void tri_espece(int nb_especes, char especes[100][50],int correspondances[100][5
     somme_max=0;
   }
 }
-void tri_carac(int nb_carac, char caracteristique[100][50],int correspondances[100][50], int nb_cara, int nb_especes){
+void tri_carac(int nb_carac, char **caracteristique,int **correspondances, int nb_especes){
   int index_max = 0;
   int somme_max = 0;
   int somme_actuel = 0;
-  for (int i=0; i<nb_cara;i++){
-    for (int j=0; j<nb_cara;j++){
+  for (int i=0; i<nb_carac;i++){
+    for (int j=0; j<nb_carac;j++){
       somme_actuel = somme_colonne(correspondances,j,nb_especes);
-      if (somme_actuel >= somme_max){
+      if (somme_actuel > somme_max){
         somme_max = somme_actuel;
         index_max = j;
       }
     }
-    echange_colonne(i,index_max,correspondances,caracteristique,nb_cara);
+    echange_colonne(i,index_max,correspondances,caracteristique,nb_especes);
     somme_max=0;
   }
 }
-*/
+
 int lire_table(char* nom_fichier, char **especes, char **caracteristiques, int **correspondances, int* nb_especes, int* nb_carac){
   // On passe en arguments :
 

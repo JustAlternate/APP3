@@ -49,10 +49,14 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
+
+    //CREER ARBRE EN PNG + AFFICHER DANS LE TERM :
+    /*
+
     arbre mon_arbre = lire_arbre (f);
 
-    int nombre_especes; /* Ne pas initialiser ici, c'est analyse_arbre */
-    int nombre_caract;  /* qui doit s'en charger */
+    int nombre_especes; // Ne pas initialiser ici, c'est analyse_arbre
+    int nombre_caract;  // qui doit s'en charger 
 
     affiche_arbre (mon_arbre);
 
@@ -63,6 +67,10 @@ int main(int argc, char* argv[])
     int decalage = 0;
 
     print_arbre(mon_arbre,&decalage);
+
+    */
+
+    // LANCER ACTE 5
     char **especes = malloc(sizeof(char*)*100);
     char **caracteristiques = malloc(sizeof(char*)*100);
     int **correspondances = malloc(sizeof(int*)*100);
@@ -78,14 +86,13 @@ int main(int argc, char* argv[])
     lire_table(nom_fichier,especes,caracteristiques,correspondances,&nb_especes,&nb_carac);
     printf("j'affiche la matrice:");
     afficher_matrice(especes, caracteristiques, correspondances, nb_especes, nb_carac);
-    printf("j'ai affiché");
+    
+    tri_espece(nb_carac,especes,correspondances,nb_especes);
+    tri_carac(nb_carac,caracteristiques,correspondances,nb_especes);
 
-
-
-
-
-
-
+    printf("j'affiche la matrice triée :");
+    afficher_matrice(especes, caracteristiques, correspondances, nb_especes, nb_carac);
+    
     return 0;
 }
 
