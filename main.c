@@ -9,11 +9,15 @@
 int DEBUG = 0;
 
 void sequence_de_carac(int id_espece, liste_t *seq, char **caracteristiques, int **correspondances, int nb_carac){
+  //printf("l'id : %d\n", id_espece);
   for (int i = 0; i < nb_carac; i++)
   {
-    if(caracteristiques[id_espece][i]){
+    //printf("on test %s, c'est: %d\n", caracteristiques[i], correspondances[id_espece][i]);
+    if (correspondances[id_espece][i] == 1)
+    {
       ajouter_tete(seq, caracteristiques[i]);
-      printf("on a ajouté %s\n", caracteristiques[i]);
+      //printf("ça marche");
+      // printf("on a ajouté %s\n", caracteristiques[i]);
     }
     //printf("voici la séquence:\n");
     //affiche_liste(seq);
@@ -111,23 +115,31 @@ int main(int argc, char* argv[])
     //final->gauche = NULL;
     //final->valeur = " coucou ";
     liste_t liste;
-    printf("on start la boucle\n");
+    init_liste_vide(&liste);
+    //printf("on start la boucle\n");
+    int p = 0; //pour le décalage
     for (int i = nb_especes - 1; i > -1; i--)
     {
-      printf("dans la boooooucle\n");
-      printf("l'espece du moment: %s\n", especes[i]);
-
-      init_liste_vide(&liste);
-      printf("on commence la séquence:\n");
+      //printf("\ndans la boooooucle\n");
+      //printf("l'espece du moment: %s\n", especes[i]);
+      //printf("on montre la séquence avant free:\n  ");
+      //affiche_liste(&liste);
+      liberer_liste(&liste);
+      //printf("on montre la séquence apres free:\n  ");
+      //affiche_liste(&liste);
+      //printf("on commence la séquence.\n");
       sequence_de_carac(i, &liste, caracteristiques, correspondances, nb_carac);
-      printf("on montre la séquence:\n");
-      affiche_liste(&liste);
-      printf("on a montré la séquence\n");
+      //printf("on montre la séquence:\n  ");
+      //affiche_liste(&liste);
+      //printf("on a montré la séquence\non ajoute espece\n");
       ajouter_espece(&final, especes[i], liste.tete);
-      printf("ona ajouté espece\n");
-      printf("%s \n", especes[i]);
+      //printf("on a ajouté espece\n");
+      //printf("l'espece: %s \n", especes[i]);
+      //print_arbre(final, &p);
+      //printf("on réaffiche la list\n  ");
+      //affiche_liste(&liste);
     }
-    affiche_arbre(final);
+    print_arbre(final, &p);
 
     return 0;
 }

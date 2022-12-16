@@ -46,9 +46,10 @@ int ajouter_tete(liste_t* L, string c) { /* retourne 0 si OK, 1 sinon  */
 void affiche_liste(liste_t* L){
   cellule_t *cur = L->tete;
   while(cur!=NULL){
-    printf("%s \n",cur->val);
+    printf("%s ",cur->val);
     cur = cur->suivant;
   }
+  printf("\n");
 }
 
 int longueur_seq(cellule_t* seq){

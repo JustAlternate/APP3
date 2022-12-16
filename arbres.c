@@ -108,9 +108,11 @@ void ecrire_arbre_rec (arbre racine, FILE *f){
 
 void affiche_arbre (noeud *racine)
 {
-   FILE *f = fopen("arbre.dot", "w");
-   if (f == NULL){
-    fprintf(stderr, "Fichier impossible a lire.");
+    printf("on affiche l'arbre\n");
+    FILE *f = fopen("arbre.dot", "w");
+    if (f == NULL)
+    {
+        fprintf(stderr, "Fichier impossible a lire.");
    }
    fprintf(f, "digraph arbre { ");
    ecrire_arbre_rec(racine, f);
